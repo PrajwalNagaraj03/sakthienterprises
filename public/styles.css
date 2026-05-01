@@ -1,0 +1,84 @@
+:root {
+  --bg: #0a0a0f;
+  --text: #f0f0f5;
+  --accent: #f97316;
+  --grad: linear-gradient(135deg, #f97316, #ef4444, #ec4899);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#particleCanvas {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+}
+
+.orb {
+  position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4;
+  animation: float 20s ease-in-out infinite;
+}
+.orb-1 { width: 400px; height: 400px; background: radial-gradient(#f97316, transparent); top: -10%; right: -5%; }
+.orb-2 { width: 350px; height: 350px; background: radial-gradient(#ec4899, transparent); bottom: -10%; left: -5%; animation-delay: -7s; }
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+.container {
+  position: relative; z-index: 1; text-align: center; max-width: 600px; padding: 2rem;
+}
+
+.brand {
+  display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 2rem;
+}
+.brand svg { width: 48px; height: 48px; }
+.brand-name { font-family: 'Outfit', sans-serif; font-weight: 700; letter-spacing: 0.2em; }
+
+.badge {
+  display: inline-block; padding: 0.25rem 1rem; background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 99px; font-size: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.headline {
+  font-family: 'Outfit', sans-serif; font-size: 3rem; font-weight: 800; line-height: 1.2;
+  margin-bottom: 1rem;
+}
+.gradient-text { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+.subtext { color: #8888a0; margin-bottom: 2rem; line-height: 1.6; }
+
+.countdown { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; }
+.countdown-item {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; padding: 1rem; min-width: 80px;
+}
+.countdown-value { font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 700; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.countdown-label { font-size: 0.7rem; color: #55556a; text-transform: uppercase; }
+.countdown-separator { font-size: 2rem; font-weight: 700; color: #55556a; margin-top: 0.5rem; }
+
+.signup-form .input-wrapper {
+  display: flex; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 99px; padding: 4px;
+}
+.input-wrapper input {
+  flex: 1; background: transparent; border: none; padding: 0 1rem; color: white; outline: none;
+}
+.input-wrapper button {
+  background: var(--grad); border: none; padding: 0.75rem 1.5rem; border-radius: 99px;
+  color: white; font-weight: 600; cursor: pointer; transition: transform 0.2s;
+}
+.input-wrapper button:hover { transform: scale(1.05); }
+
+.form-note { font-size: 0.8rem; color: #55556a; margin-top: 1rem; }
+
+.footer { margin-top: 3rem; color: #55556a; font-size: 0.8rem; }

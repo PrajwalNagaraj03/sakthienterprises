@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sakthi Enterprises — Coming Soon</title>
+  <meta name="description" content="Sakthi Enterprises is launching soon. Stay tuned for something extraordinary.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Animated background particles -->
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- Glowing orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <main class="container">
+    <!-- Logo / Brand -->
+    <div class="brand" id="brand">
+      <div class="logo-icon">
+        <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M30 5L55 17.5V42.5L30 55L5 42.5V17.5L30 5Z" stroke="url(#logoGrad)" stroke-width="2" fill="none"/>
+          <path d="M30 15L45 22.5V37.5L30 45L15 37.5V22.5L30 15Z" stroke="url(#logoGrad)" stroke-width="1.5" fill="none" opacity="0.6"/>
+          <path d="M30 25L37.5 28.75V36.25L30 40L22.5 36.25V28.75L30 25Z" fill="url(#logoGrad)" opacity="0.3"/>
+          <defs>
+            <linearGradient id="logoGrad" x1="5" y1="5" x2="55" y2="55">
+              <stop offset="0%" stop-color="#f97316"/>
+              <stop offset="50%" stop-color="#ef4444"/>
+              <stop offset="100%" stop-color="#ec4899"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <span class="brand-name">SAKTHI ENTERPRISES</span>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content" id="content">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Launching Soon
+      </div>
+
+      <h1 class="headline">
+        Something <span class="gradient-text">extraordinary</span><br>
+        is on its way.
+      </h1>
+
+      <p class="subtext">
+        We're crafting something truly special. Be the first to know when we launch — 
+        sign up below and get exclusive early access.
+      </p>
+
+      <!-- Countdown -->
+      <div class="countdown" id="countdown">
+        <div class="countdown-item">
+          <span class="countdown-value" id="days">00</span>
+          <span class="countdown-label">Days</span>
+        </div>
+        <div class="countdown-separator">:</div>
+        <div class="countdown-item">
+          <span class="countdown-value" id="hours">00</span>
+          <span class="countdown-label">Hours</span>
+        </div>
+        <div class="countdown-separator">:</div>
+        <div class="countdown-item">
+          <span class="countdown-value" id="minutes">00</span>
+          <span class="countdown-label">Minutes</span>
+        </div>
+        <div class="countdown-separator">:</div>
+        <div class="countdown-item">
+          <span class="countdown-value" id="seconds">00</span>
+          <span class="countdown-label">Seconds</span>
+        </div>
+      </div>
+
+      <!-- Email Signup -->
+      <form class="signup-form" id="signupForm">
+        <div class="input-wrapper">
+          <input 
+            type="email" 
+            id="emailInput"
+            placeholder="Enter your email address" 
+            required
+            autocomplete="email"
+          >
+          <button type="submit" id="notifyBtn">
+            <span class="btn-text">Notify Me</span>
+            <span class="btn-icon">→</span>
+          </button>
+        </div>
+        <p class="form-note">No spam, ever. We promise. 🤙</p>
+      </form>
+
+      <!-- Success Message -->
+      <div class="success-message" id="successMessage">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+          <path d="M8 12L11 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>You're on the list! We'll be in touch soon.</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+      <div class="social-links">
+        <a href="#" class="social-link" id="socialTwitter" aria-label="Twitter">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4l11.733 16h4.267l-11.733 -16h-4.267z"/>
+            <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/>
+          </svg>
+        </a>
+        <a href="#" class="social-link" id="socialInstagram" aria-label="Instagram">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="2" width="20" height="20" rx="5"/>
+            <circle cx="12" cy="12" r="5"/>
+            <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/>
+          </svg>
+        </a>
+        <a href="#" class="social-link" id="socialLinkedin" aria-label="LinkedIn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="2" width="20" height="20" rx="3"/>
+            <path d="M8 11v5M8 8v.01M12 16v-5c0-1.5 1-2 2-2s2 .5 2 2v5"/>
+          </svg>
+        </a>
+      </div>
+      <p class="copyright">© 2026 Sakthi Enterprises. All rights reserved.</p>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
