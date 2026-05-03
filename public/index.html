@@ -3,136 +3,263 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sakthi Enterprises — Coming Soon</title>
-  <meta name="description" content="Sakthi Enterprises is launching soon. Stay tuned for something extraordinary.">
+  <title>Sakthi Enterprises — Jigs &amp; Springs Manufacturer | Mylasandra, Bangalore</title>
+  <meta name="description" content="Precision jigs &amp; springs manufacturer in Mylasandra, Bangalore. Custom fixtures, compression springs, tension springs, torsion springs. 15+ years experience.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Animated background particles -->
-  <canvas id="particleCanvas"></canvas>
 
-  <!-- Glowing orbs -->
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-
-  <main class="container">
-    <!-- Logo / Brand -->
-    <div class="brand" id="brand">
-      <div class="logo-icon">
-        <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M30 5L55 17.5V42.5L30 55L5 42.5V17.5L30 5Z" stroke="url(#logoGrad)" stroke-width="2" fill="none"/>
-          <path d="M30 15L45 22.5V37.5L30 45L15 37.5V22.5L30 15Z" stroke="url(#logoGrad)" stroke-width="1.5" fill="none" opacity="0.6"/>
-          <path d="M30 25L37.5 28.75V36.25L30 40L22.5 36.25V28.75L30 25Z" fill="url(#logoGrad)" opacity="0.3"/>
-          <defs>
-            <linearGradient id="logoGrad" x1="5" y1="5" x2="55" y2="55">
-              <stop offset="0%" stop-color="#f97316"/>
-              <stop offset="50%" stop-color="#ef4444"/>
-              <stop offset="100%" stop-color="#ec4899"/>
-            </linearGradient>
-          </defs>
-        </svg>
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo" id="navLogo">
+        <div class="logo-mark">SE</div>
+        <span>Sakthi Enterprises</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        </button>
+        <a href="tel:08080808080" class="nav-cta" id="navCta">Get Quote</a>
       </div>
-      <span class="brand-name">SAKTHI ENTERPRISES</span>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
+  </nav>
 
-    <!-- Main Content -->
-    <div class="content" id="content">
-      <div class="badge">
-        <span class="badge-dot"></span>
-        Launching Soon
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <img src="images/hero.png" alt="Precision jigs and springs manufacturing" loading="eager">
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-pulse"></span>
+        Precision Manufacturing Since 2010
       </div>
-
-      <h1 class="headline">
-        Something <span class="gradient-text">extraordinary</span><br>
-        is on its way.
+      <h1 class="hero-title">
+        Custom <span class="hero-gradient">Jigs</span> &amp;<br>
+        <span class="hero-gradient">Springs</span> Manufacturer
       </h1>
-
-      <p class="subtext">
-        We're crafting something truly special. Be the first to know when we launch — 
-        sign up below and get exclusive early access.
+      <p class="hero-sub">
+        High-quality industrial jigs, fixtures &amp; springs engineered to your exact specifications. 
+        Serving Bangalore's manufacturing industry for over 15 years.
       </p>
-
-      <!-- Countdown -->
-      <div class="countdown" id="countdown">
-        <div class="countdown-item">
-          <span class="countdown-value" id="days">00</span>
-          <span class="countdown-label">Days</span>
-        </div>
-        <div class="countdown-separator">:</div>
-        <div class="countdown-item">
-          <span class="countdown-value" id="hours">00</span>
-          <span class="countdown-label">Hours</span>
-        </div>
-        <div class="countdown-separator">:</div>
-        <div class="countdown-item">
-          <span class="countdown-value" id="minutes">00</span>
-          <span class="countdown-label">Minutes</span>
-        </div>
-        <div class="countdown-separator">:</div>
-        <div class="countdown-item">
-          <span class="countdown-value" id="seconds">00</span>
-          <span class="countdown-label">Seconds</span>
-        </div>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary" id="heroCta">Request a Quote</a>
+        <a href="#products" class="btn btn-outline" id="heroExplore">View Products</a>
       </div>
-
-      <!-- Email Signup -->
-      <form class="signup-form" id="signupForm">
-        <div class="input-wrapper">
-          <input 
-            type="email" 
-            id="emailInput"
-            placeholder="Enter your email address" 
-            required
-            autocomplete="email"
-          >
-          <button type="submit" id="notifyBtn">
-            <span class="btn-text">Notify Me</span>
-            <span class="btn-icon">→</span>
-          </button>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-num" data-count="15">0</span><span class="stat-plus">+</span>
+          <span class="stat-label">Years Experience</span>
         </div>
-        <p class="form-note">No spam, ever. We promise. 🤙</p>
-      </form>
-
-      <!-- Success Message -->
-      <div class="success-message" id="successMessage">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-          <path d="M8 12L11 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>You're on the list! We'll be in touch soon.</span>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num" data-count="1000">0</span><span class="stat-plus">+</span>
+          <span class="stat-label">Products Delivered</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Custom Built</span>
+        </div>
       </div>
     </div>
+  </section>
 
-    <!-- Footer -->
-    <footer class="footer" id="footer">
-      <div class="social-links">
-        <a href="#" class="social-link" id="socialTwitter" aria-label="Twitter">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M4 4l11.733 16h4.267l-11.733 -16h-4.267z"/>
-            <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/>
-          </svg>
-        </a>
-        <a href="#" class="social-link" id="socialInstagram" aria-label="Instagram">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="2" y="2" width="20" height="20" rx="5"/>
-            <circle cx="12" cy="12" r="5"/>
-            <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/>
-          </svg>
-        </a>
-        <a href="#" class="social-link" id="socialLinkedin" aria-label="LinkedIn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="2" y="2" width="20" height="20" rx="3"/>
-            <path d="M8 11v5M8 8v.01M12 16v-5c0-1.5 1-2 2-2s2 .5 2 2v5"/>
-          </svg>
-        </a>
+  <!-- PRODUCTS -->
+  <section class="products" id="products">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tag">What We Make</span>
+        <h2 class="section-title">Our <span class="gradient-text">Products</span></h2>
+        <p class="section-sub">Precision-engineered jigs &amp; springs for automotive, aerospace, electronics and general manufacturing industries.</p>
       </div>
-      <p class="copyright">© 2026 Sakthi Enterprises. All rights reserved.</p>
-    </footer>
-  </main>
+
+      <div class="products-grid">
+        <!-- Jigs Card -->
+        <div class="product-card" id="productJigs">
+          <div class="product-img">
+            <img src="images/jigs.png" alt="Custom Manufacturing Jigs" loading="lazy">
+          </div>
+          <div class="product-body">
+            <h3>Jigs &amp; Fixtures</h3>
+            <p>Custom-designed jigs and fixtures for assembly, welding, inspection &amp; machining operations. Built for precision and repeatability.</p>
+            <ul class="product-features">
+              <li>Assembly Jigs</li>
+              <li>Welding Fixtures</li>
+              <li>Inspection Gauges</li>
+              <li>Drilling Jigs</li>
+              <li>CNC Fixtures</li>
+            </ul>
+            <a href="#contact" class="btn btn-primary btn-sm">Enquire Now</a>
+          </div>
+        </div>
+
+        <!-- Springs Card -->
+        <div class="product-card" id="productSprings">
+          <div class="product-img">
+            <img src="images/springs.png" alt="Industrial Springs" loading="lazy">
+          </div>
+          <div class="product-body">
+            <h3>Industrial Springs</h3>
+            <p>Wide range of springs manufactured to exact specifications. From micro springs to heavy-duty industrial springs.</p>
+            <ul class="product-features">
+              <li>Compression Springs</li>
+              <li>Tension Springs</li>
+              <li>Torsion Springs</li>
+              <li>Die Springs</li>
+              <li>Custom Wire Forms</li>
+            </ul>
+            <a href="#contact" class="btn btn-primary btn-sm">Enquire Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tag">Why Sakthi</span>
+        <h2 class="section-title">Built on <span class="gradient-text">Precision</span></h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card" id="featureExperience">
+          <div class="feature-icon-wrap">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          </div>
+          <h3>15+ Years</h3>
+          <p>Over a decade and a half of manufacturing excellence in Bangalore.</p>
+        </div>
+        <div class="feature-card" id="featurePrecision">
+          <div class="feature-icon-wrap">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
+          <h3>Precision Crafted</h3>
+          <p>Tight tolerances and consistent quality across every batch we produce.</p>
+        </div>
+        <div class="feature-card" id="featureCustom">
+          <div class="feature-icon-wrap">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <h3>Fully Custom</h3>
+          <p>Every product made to your drawings and specifications. No off-the-shelf compromises.</p>
+        </div>
+        <div class="feature-card" id="featureDelivery">
+          <div class="feature-icon-wrap">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <h3>On-Time Delivery</h3>
+          <p>Reliable lead times with quality checks at every stage of production.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner" id="ctaBanner">
+    <div class="section-container">
+      <div class="cta-content">
+        <h2>Need Custom Jigs or Springs?</h2>
+        <p>Send us your drawings or specifications. We'll get back with a quote within 24 hours.</p>
+        <a href="#contact" class="btn btn-primary btn-lg" id="ctaQuote">Get Free Quote</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tag">Reach Out</span>
+        <h2 class="section-title">Contact <span class="gradient-text">Us</span></h2>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="contact-item" id="contactLocation">
+            <div class="contact-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <h4>Location</h4>
+              <p>Opp. SLV Apartment, Doddamma Layout,<br>Mylasandra, Bangalore, Karnataka</p>
+            </div>
+          </div>
+          <div class="contact-item" id="contactHours">
+            <div class="contact-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <div>
+              <h4>Working Hours</h4>
+              <p>Mon – Sat: 9:30 AM – 6:00 PM<br>Sunday: Closed</p>
+            </div>
+          </div>
+          <div class="contact-item" id="contactProducts">
+            <div class="contact-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+            </div>
+            <div>
+              <h4>We Manufacture</h4>
+              <p>Jigs &amp; Fixtures &bull; Compression Springs<br>Tension Springs &bull; Torsion Springs &bull; Custom Wire Forms</p>
+            </div>
+          </div>
+        </div>
+        <form class="contact-form" id="contactForm">
+          <div class="form-group"><input type="text" id="formName" placeholder="Your Name" required></div>
+          <div class="form-group"><input type="tel" id="formPhone" placeholder="Phone Number" required></div>
+          <div class="form-group">
+            <select id="formService" required>
+              <option value="" disabled selected>Select Product</option>
+              <option>Jigs &amp; Fixtures</option>
+              <option>Compression Springs</option>
+              <option>Tension Springs</option>
+              <option>Torsion Springs</option>
+              <option>Die Springs</option>
+              <option>Custom Wire Forms</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group"><textarea id="formMessage" rows="4" placeholder="Describe your requirement or attach drawing details..."></textarea></div>
+          <button type="submit" class="btn btn-primary btn-full" id="formSubmit">Send Enquiry
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" id="footer">
+    <div class="section-container">
+      <div class="footer-simple">
+        <div class="nav-logo"><div class="logo-mark">SE</div><span>Sakthi Enterprises</span></div>
+        <p>Jigs &amp; Springs Manufacturer &bull; Mylasandra, Bangalore</p>
+        <p class="copyright">&copy; 2026 Sakthi Enterprises. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Call (Mobile) -->
+  <div class="floating-cta" id="floatingCta">
+    <a href="tel:08080808080" class="float-btn" aria-label="Call us">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+    </a>
+  </div>
 
   <script src="script.js"></script>
 </body>
