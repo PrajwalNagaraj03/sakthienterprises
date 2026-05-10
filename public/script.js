@@ -1,98 +1,88 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Particle Animation
-  const canvas = document.getElementById('particleCanvas');
-  const ctx = canvas.getContext('2d');
-  
-  let width, height;
-  let particles = [];
-  
-  function resize() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-  }
-  
-  window.addEventListener('resize', resize);
-  resize();
-  
-  class Particle {
-    constructor() {
-      this.x = Math.random() * width;
-      this.y = Math.random() * height;
-      this.vx = (Math.random() - 0.5) * 0.5;
-      this.vy = (Math.random() - 0.5) * 0.5;
-      this.radius = Math.random() * 2 + 1;
-      this.color = `rgba(255, 255, 255, ${Math.random() * 0.3})`;
+  // === THEME TOGGLE ===
+  const toggle = document.getElementById('themeToggle');
+  const saved = localStorage.getItem('theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+
+  toggle.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    if (next === 'light') {
+      document.documentElement.removeAttribute('data-theme');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
     }
-    
-    update() {
-      this.x += this.vx;
-      this.y += this.vy;
-      
-      if (this.x < 0) this.x = width;
-      if (this.x > width) this.x = 0;
-      if (this.y < 0) this.y = height;
-      if (this.y > height) this.y = 0;
-    }
-    
-    draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = this.color;
-      ctx.fill();
-    }
-  }
-  
-  for (let i = 0; i < 50; i++) {
-    particles.push(new Particle());
-  }
-  
-  function animate() {
-    ctx.clearRect(0, 0, width, height);
-    particles.forEach(p => {
-      p.update();
-      p.draw();
+    localStorage.setItem('theme', next);
+  });
+
+  // === NAVBAR SCROLL ===
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // === MOBILE MENU ===
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    navToggle.classList.toggle('active');
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      navToggle.classList.remove('active');
+      navLinks.classList.remove('open');
     });
-    requestAnimationFrame(animate);
-  }
-  animate();
+  });
 
-  // Countdown Timer (Set to 30 days from now)
-  const targetDate = new Date();
-  targetDate.setDate(targetDate.getDate() + 30);
-  
-  function updateCountdown() {
-    const now = new Date();
-    const diff = targetDate - now;
-    
-    if (diff <= 0) return;
-    
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    
-    document.getElementById('days').textContent = days.toString().padStart(2, '0');
-    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-  }
-  
-  setInterval(updateCountdown, 1000);
-  updateCountdown();
+  // === SMOOTH SCROLL ===
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
 
-  // Form Submission
-  const form = document.getElementById('signupForm');
-  form.addEventListener('submit', (e) => {
+  // === STAT COUNTER ===
+  const counters = document.querySelectorAll('.stat-num[data-count]');
+  let counted = false;
+  function animateCounters() {
+    counters.forEach(el => {
+      const target = parseInt(el.dataset.count);
+      const duration = 1500;
+      const step = target / (duration / 16);
+      let current = 0;
+      function tick() {
+        current += step;
+        if (current >= target) { el.textContent = target; }
+        else { el.textContent = Math.floor(current); requestAnimationFrame(tick); }
+      }
+      tick();
+    });
+  }
+
+  // === SCROLL REVEAL ===
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.product-card, .feature-card, .contact-item').forEach(el => {
+    el.classList.add('reveal');
+    observer.observe(el);
+  });
+
+  setTimeout(() => { if (!counted) { counted = true; animateCounters(); } }, 1200);
+
+  // === FORM SUBMIT ===
+  document.getElementById('contactForm').addEventListener('submit', e => {
     e.preventDefault();
-    const btn = form.querySelector('button');
-    btn.innerHTML = 'Added! ✓';
+    const btn = e.target.querySelector('button');
+    const original = btn.innerHTML;
+    btn.innerHTML = '✓ Enquiry Sent! We\'ll contact you soon.';
     btn.style.background = '#10b981';
-    setTimeout(() => {
-      form.reset();
-      btn.innerHTML = '<span class="btn-text">Notify Me</span><span class="btn-icon">→</span>';
-      btn.style.background = 'var(--grad)';
-    }, 3000);
+    setTimeout(() => { e.target.reset(); btn.innerHTML = original; btn.style.background = ''; }, 3000);
   });
 });
