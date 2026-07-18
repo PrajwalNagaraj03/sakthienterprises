@@ -187,12 +187,24 @@ img{max-width:100%;display:block}
 .footer-iso{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;font-weight:600;color:var(--accent);text-decoration:none;opacity:.8;transition:opacity .2s}
 .footer-iso:hover{opacity:1}
 
-/* === ISO TRUST STRIP === */
-.iso-strip{padding:24px 0;background:var(--bg2);border-top:1px solid var(--card-border);border-bottom:1px solid var(--card-border);transition:background .4s}
-.iso-strip-inner{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;font-size:.9rem;color:var(--text2)}
-.iso-strip-inner svg{color:var(--accent);flex-shrink:0}
-.iso-link{font-size:.84rem;font-weight:600;color:var(--accent);text-decoration:none;transition:opacity .2s}
-.iso-link:hover{opacity:.75}
+/* === QUALITY CERT SECTION === */
+.quality-cert-section{padding:100px 0;background:var(--bg);transition:background .4s;border-top:1px solid var(--card-border)}
+.cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.cert-image-wrap{position:relative;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--card-border);transition:all .4s}
+.cert-image-wrap:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 12px 32px rgba(0,0,0,0.12);border-color:var(--accent-glow)}
+.cert-img{width:100%;height:auto;display:block}
+.cert-text-wrap{display:flex;flex-direction:column;align-items:flex-start}
+.cert-text-wrap .section-sub{text-align:left;margin-left:0;margin-bottom:32px}
+.cert-benefits{list-style:none;display:flex;flex-direction:column;gap:16px;margin-bottom:16px}
+.cert-benefits li{display:flex;align-items:center;gap:16px;font-size:1rem;color:var(--text);font-weight:500}
+.cert-icon-check{width:32px;height:32px;background:var(--accent-light);color:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+@media(max-width:992px){.cert-grid{gap:40px}}
+@media(max-width:768px){
+  .cert-grid{grid-template-columns:1fr;gap:32px}
+  .cert-text-wrap{align-items:center}
+  .cert-text-wrap .section-sub{text-align:center;margin:16px auto 32px}
+  .cert-benefits li{text-align:left}
+}
 
 /* === CERTIFICATIONS === */
 .certifications{padding:80px 0}

@@ -86,6 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.feature-card, .contact-item, .quicklink-card, .category-card, .gallery-item').forEach(el => {
     el.classList.add('reveal');
+  });
+  
+  document.querySelectorAll('.reveal').forEach(el => {
     observer.observe(el);
   });
 
