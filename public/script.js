@@ -84,15 +84,35 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, { threshold: 0.15 });
 
-  document.querySelectorAll('.feature-card, .contact-item, .quicklink-card, .category-card, .gallery-item').forEach(el => {
-    el.classList.add('reveal');
-  });
-  
-  document.querySelectorAll('.reveal').forEach(el => {
-    observer.observe(el);
-  });
+  function initReveal() {
+    document.querySelectorAll('.feature-card, .contact-item, .quicklink-card, .category-card, .gallery-item').forEach(el => {
+      el.classList.add('reveal');
+    });
+    document.querySelectorAll('.reveal').forEach(el => {
+      observer.observe(el);
+    });
+  }
+  window.initReveal = initReveal;
+  initReveal();
 
   if (counters.length) setTimeout(() => { if (!counted) { counted = true; animateCounters(); } }, 1200);
+
+  // === HIDDEN ADMIN ACCESS ===
+  // Click the footer copyright text 5 times within 3 seconds to open admin login.
+  const footerBottom = document.querySelector('.footer-bottom');
+  if (footerBottom) {
+    let clicks = 0, clickTimer = null;
+    footerBottom.addEventListener('click', () => {
+      clicks++;
+      clearTimeout(clickTimer);
+      if (clicks >= 5) {
+        clicks = 0;
+        window.location.href = 'admin.html';
+        return;
+      }
+      clickTimer = setTimeout(() => { clicks = 0; }, 3000);
+    });
+  }
 
   // === FORM SUBMIT (contact) ===
   const contactForm = document.getElementById('contactForm');

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Sakthi Enterprises</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .admin-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg2);
+      padding: 24px;
+    }
+
+    .admin-card {
+      width: 100%;
+      max-width: 400px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 40px 36px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .admin-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+
+    .admin-logo img {
+      height: 48px;
+      width: auto;
+      mix-blend-mode: multiply;
+    }
+
+    [data-theme="dark"] .admin-logo img {
+      filter: invert(1) hue-rotate(180deg) brightness(1.2);
+      mix-blend-mode: screen;
+    }
+
+    .admin-logo span {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: .9rem;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: .02em;
+    }
+
+    .admin-title {
+      font-family: var(--display);
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .admin-sub {
+      font-size: .86rem;
+      color: var(--text2);
+      margin-bottom: 28px;
+    }
+
+    .admin-field {
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .admin-field input {
+      width: 100%;
+      background: var(--bg);
+      border: 1.5px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: .9rem;
+      outline: none;
+      transition: border-color .3s, box-shadow .3s;
+    }
+
+    .admin-field input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+
+    .admin-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--grad);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-full);
+      font-family: var(--font);
+      font-size: .92rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .3s;
+      margin-top: 8px;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+
+    .admin-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px var(--accent-glow);
+    }
+
+    .admin-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .admin-status {
+      font-size: .84rem;
+      font-weight: 500;
+      min-height: 1.2em;
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    .admin-status.error {
+      color: #ef4444;
+    }
+
+    .admin-back {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      font-size: .82rem;
+      color: var(--text3);
+      transition: color .3s;
+    }
+
+    .admin-back:hover {
+      color: var(--accent);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="admin-wrap">
+    <div class="admin-card">
+      <div class="admin-logo">
+        <img src="images/logo.jpeg" alt="Sakthi Enterprises">
+        <span>Sakthi Enterprises</span>
+      </div>
+      <h1 class="admin-title">Admin Login</h1>
+      <p class="admin-sub">Enter your admin password to manage the gallery.</p>
+
+      <form id="loginForm" novalidate>
+        <div class="admin-field">
+          <input type="password" id="password" placeholder="Admin password" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="admin-btn" id="loginBtn">Sign In</button>
+        <p class="admin-status" id="loginStatus"></p>
+      </form>
+
+      <a href="index.html" class="admin-back">← Back to site</a>
+    </div>
+  </div>
+
+  <script>
+    // Apply saved theme immediately
+    (function () {
+      const t = localStorage.getItem('theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    })();
+
+    // Redirect to dashboard if already logged in
+    if (sessionStorage.getItem('adminToken')) {
+      window.location.href = 'admin-dashboard.html';
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('loginBtn');
+      const status = document.getElementById('loginStatus');
+      const password = document.getElementById('password').value;
+
+      btn.disabled = true;
+      btn.textContent = 'Signing in…';
+      status.textContent = '';
+      status.className = 'admin-status';
+
+      try {
+        const res = await fetch('/api/admin-login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password }),
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          status.textContent = data.error || 'Login failed.';
+          status.className = 'admin-status error';
+          btn.disabled = false;
+          btn.textContent = 'Sign In';
+          return;
+        }
+
+        sessionStorage.setItem('adminToken', data.token);
+        window.location.href = 'admin-dashboard.html';
+      } catch {
+        status.textContent = 'Network error. Please try again.';
+        status.className = 'admin-status error';
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+      }
+    });
+  </script>
+</body>
+
+</html>

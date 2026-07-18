@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Sakthi Enterprises</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ── Layout ── */
+    .dash-wrap {
+      min-height: 100vh;
+      background: var(--bg2);
+      padding-bottom: 80px;
+    }
+
+    /* ── Top bar ── */
+    .dash-topbar {
+      background: var(--nav-bg);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 14px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .dash-topbar-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .dash-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .dash-brand img {
+      height: 40px;
+      width: auto;
+      mix-blend-mode: multiply;
+    }
+
+    [data-theme="dark"] .dash-brand img {
+      filter: invert(1) hue-rotate(180deg) brightness(1.2);
+      mix-blend-mode: screen;
+    }
+
+    .dash-brand-text {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: .88rem;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: .02em;
+    }
+
+    .dash-label {
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-light);
+      border: 1px solid var(--accent-glow);
+      border-radius: var(--radius-full);
+      padding: 3px 10px;
+    }
+
+    .dash-topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .dash-logout {
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--text2);
+      background: none;
+      border: 1.5px solid var(--card-border);
+      border-radius: var(--radius-full);
+      padding: 7px 16px;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: all .3s;
+    }
+
+    .dash-logout:hover {
+      border-color: #ef4444;
+      color: #ef4444;
+    }
+
+    /* ── Main content ── */
+    .dash-content {
+      max-width: 900px;
+      margin: 48px auto 0;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 700px) {
+      .dash-content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ── Cards ── */
+    .dash-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .dash-card-title {
+      font-family: var(--display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .dash-card-sub {
+      font-size: .82rem;
+      color: var(--text2);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* ── Upload form ── */
+    .upload-field {
+      margin-bottom: 14px;
+    }
+
+    .upload-field label {
+      display: block;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--text2);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .upload-field select,
+    .upload-field input[type="text"] {
+      width: 100%;
+      background: var(--bg);
+      border: 1.5px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: .88rem;
+      outline: none;
+      transition: border-color .3s, box-shadow .3s;
+      appearance: none;
+    }
+
+    .upload-field select:focus,
+    .upload-field input[type="text"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+
+    .upload-field select option {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* ── Dropzone ── */
+    .dropzone {
+      border: 2px dashed var(--card-border);
+      border-radius: var(--radius);
+      padding: 32px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .3s;
+      position: relative;
+    }
+
+    .dropzone:hover,
+    .dropzone.drag-over {
+      border-color: var(--accent);
+      background: var(--accent-light);
+    }
+
+    .dropzone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .dropzone-icon {
+      width: 44px;
+      height: 44px;
+      margin: 0 auto 12px;
+      background: var(--accent-light);
+      border: 1px solid var(--accent-glow);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+    }
+
+    .dropzone p {
+      font-size: .84rem;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+
+    .dropzone strong {
+      color: var(--accent);
+    }
+
+    /* ── Preview ── */
+    .preview-wrap {
+      margin-top: 14px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: none;
+      position: relative;
+    }
+
+    .preview-wrap.visible {
+      display: block;
+    }
+
+    .preview-wrap img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .preview-remove {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, .6);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      line-height: 1;
+      transition: background .2s;
+    }
+
+    .preview-remove:hover {
+      background: #ef4444;
+    }
+
+    /* ── Submit button ── */
+    .upload-btn {
+      width: 100%;
+      padding: 13px;
+      background: var(--grad);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-full);
+      font-family: var(--font);
+      font-size: .9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .3s;
+      margin-top: 16px;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+
+    .upload-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px var(--accent-glow);
+    }
+
+    .upload-btn:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .upload-progress {
+      height: 4px;
+      background: var(--bg3);
+      border-radius: 99px;
+      margin-top: 12px;
+      overflow: hidden;
+      display: none;
+    }
+
+    .upload-progress.visible {
+      display: block;
+    }
+
+    .upload-progress-bar {
+      height: 100%;
+      background: var(--grad);
+      border-radius: 99px;
+      width: 0;
+      transition: width .4s ease;
+    }
+
+    .upload-status {
+      font-size: .84rem;
+      font-weight: 500;
+      min-height: 1.2em;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .upload-status.error {
+      color: #ef4444;
+    }
+
+    .upload-status.success {
+      color: #10b981;
+    }
+
+    /* ── Uploaded images panel ── */
+    .dash-card.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .gallery-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .filter-btn {
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      border: 1.5px solid var(--card-border);
+      background: none;
+      font-family: var(--font);
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--text2);
+      cursor: pointer;
+      transition: all .3s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-light);
+    }
+
+    .admin-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .admin-gallery-item {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: var(--bg3);
+    }
+
+    .admin-gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity .3s;
+    }
+
+    .admin-gallery-item:hover img {
+      opacity: .7;
+    }
+
+    .admin-gallery-cat {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 6px 8px;
+      background: linear-gradient(0deg, rgba(0, 0, 0, .8), transparent);
+      color: #fff;
+      font-size: .68rem;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .gallery-empty {
+      color: var(--text3);
+      font-size: .88rem;
+      text-align: center;
+      padding: 32px 0;
+    }
+
+    .gallery-loading {
+      color: var(--text3);
+      font-size: .88rem;
+      text-align: center;
+      padding: 32px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="dash-wrap">
+
+    <!-- Top bar -->
+    <div class="dash-topbar">
+      <div class="dash-topbar-inner">
+        <a href="index.html" class="dash-brand">
+          <img src="images/logo.jpeg" alt="Sakthi Enterprises">
+          <span class="dash-brand-text">Sakthi Enterprises</span>
+        </a>
+        <span class="dash-label">Admin Dashboard</span>
+        <div class="dash-topbar-right">
+          <button class="dash-logout" id="logoutBtn">Log Out</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="dash-content">
+
+      <!-- Upload card -->
+      <div class="dash-card">
+        <h2 class="dash-card-title">Upload Image</h2>
+        <p class="dash-card-sub">Choose a product category and upload a photo to add it to the gallery.</p>
+
+        <form id="uploadForm" novalidate>
+          <div class="upload-field">
+            <label for="category">Product Category</label>
+            <select id="category" name="category" required>
+              <option value="" disabled selected>Select a category…</option>
+              <option value="electro-plating-jigs-single-bar">Electro Plating Jigs — Single Bar</option>
+              <option value="electro-plating-jigs-rack">Electro Plating Jigs — Rack</option>
+              <option value="painting-jigs">Painting Jigs</option>
+              <option value="electro-less-plating-jigs">Electro Less Plating Jigs</option>
+              <option value="anodes">Anodes</option>
+              <option value="pvc-coated-baskets">PVC Coated Baskets</option>
+              <option value="pvc-coated-separators">PVC Coated Separators</option>
+              <option value="jigs-with-custom-anodes">Jigs with Custom Anodes</option>
+            </select>
+          </div>
+
+          <div class="upload-field">
+            <label>Image</label>
+            <div class="dropzone" id="dropzone">
+              <input type="file" id="imageFile" name="image" accept="image/jpeg,image/png,image/webp">
+              <div class="dropzone-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                  <polyline points="17 8 12 3 7 8" />
+                  <line x1="12" y1="3" x2="12" y2="15" />
+                </svg>
+              </div>
+              <p><strong>Click to browse</strong> or drag &amp; drop<br>JPEG, PNG, WebP · max 8 MB</p>
+            </div>
+            <div class="preview-wrap" id="previewWrap">
+              <img id="previewImg" src="" alt="Preview">
+              <button type="button" class="preview-remove" id="removeImg" aria-label="Remove image">×</button>
+            </div>
+          </div>
+
+          <button type="submit" class="upload-btn" id="uploadBtn">Upload Image</button>
+          <div class="upload-progress" id="uploadProgress">
+            <div class="upload-progress-bar" id="uploadProgressBar"></div>
+          </div>
+          <p class="upload-status" id="uploadStatus"></p>
+        </form>
+      </div>
+
+      <!-- Tips card -->
+      <div class="dash-card">
+        <h2 class="dash-card-title">Tips</h2>
+        <p class="dash-card-sub">Guidelines for gallery photos.</p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:14px;">
+          <li style="display:flex;gap:12px;align-items:flex-start;">
+            <span
+              style="width:28px;height:28px;flex-shrink:0;background:var(--accent-light);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--accent);">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </span>
+            <span style="font-size:.85rem;color:var(--text2);line-height:1.5;">Use well-lit, clear photos of the
+              finished product.</span>
+          </li>
+          <li style="display:flex;gap:12px;align-items:flex-start;">
+            <span
+              style="width:28px;height:28px;flex-shrink:0;background:var(--accent-light);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--accent);">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </span>
+            <span style="font-size:.85rem;color:var(--text2);line-height:1.5;">Landscape (4:3 or 16:9) orientation
+              looks best in the gallery grid.</span>
+          </li>
+          <li style="display:flex;gap:12px;align-items:flex-start;">
+            <span
+              style="width:28px;height:28px;flex-shrink:0;background:var(--accent-light);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--accent);">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </span>
+            <span style="font-size:.85rem;color:var(--text2);line-height:1.5;">Select the correct product category so
+              customers can filter images easily.</span>
+          </li>
+          <li style="display:flex;gap:12px;align-items:flex-start;">
+            <span
+              style="width:28px;height:28px;flex-shrink:0;background:var(--accent-light);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--accent);">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </span>
+            <span style="font-size:.85rem;color:var(--text2);line-height:1.5;">Images appear in the public gallery
+              within a minute of uploading.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Uploaded images -->
+      <div class="dash-card full-width">
+        <h2 class="dash-card-title">Gallery Images</h2>
+        <p class="dash-card-sub">All images currently in the gallery, newest first.</p>
+
+        <div class="gallery-filter" id="galleryFilter">
+          <button class="filter-btn active" data-cat="all">All</button>
+          <button class="filter-btn" data-cat="electro-plating-jigs-single-bar">Single Bar Jigs</button>
+          <button class="filter-btn" data-cat="electro-plating-jigs-rack">Rack Jigs</button>
+          <button class="filter-btn" data-cat="painting-jigs">Painting Jigs</button>
+          <button class="filter-btn" data-cat="electro-less-plating-jigs">Electro Less Plating</button>
+          <button class="filter-btn" data-cat="anodes">Anodes</button>
+          <button class="filter-btn" data-cat="pvc-coated-baskets">PVC Baskets</button>
+          <button class="filter-btn" data-cat="pvc-coated-separators">PVC Separators</button>
+          <button class="filter-btn" data-cat="jigs-with-custom-anodes">Custom Anodes</button>
+        </div>
+
+        <div id="adminGallery">
+          <p class="gallery-loading">Loading…</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Apply saved theme immediately
+    (function () {
+      const t = localStorage.getItem('theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+    })();
+
+    // Guard — redirect to login if no token
+    const token = sessionStorage.getItem('adminToken');
+    if (!token) window.location.href = 'admin.html';
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      sessionStorage.removeItem('adminToken');
+      window.location.href = 'admin.html';
+    });
+
+    // ── Dropzone preview ──
+    const fileInput = document.getElementById('imageFile');
+    const previewWrap = document.getElementById('previewWrap');
+    const previewImg = document.getElementById('previewImg');
+    const dropzone = document.getElementById('dropzone');
+
+    fileInput.addEventListener('change', () => {
+      showPreview(fileInput.files[0]);
+    });
+
+    document.getElementById('removeImg').addEventListener('click', () => {
+      fileInput.value = '';
+      previewWrap.classList.remove('visible');
+      previewImg.src = '';
+    });
+
+    dropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzone.classList.add('drag-over');
+    });
+
+    dropzone.addEventListener('dragleave', () => {
+      dropzone.classList.remove('drag-over');
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('drag-over');
+      const file = e.dataTransfer.files[0];
+      if (file) {
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        fileInput.files = dt.files;
+        showPreview(file);
+      }
+    });
+
+    function showPreview(file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        previewImg.src = e.target.result;
+        previewWrap.classList.add('visible');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ── Upload form ──
+    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const btn = document.getElementById('uploadBtn');
+      const status = document.getElementById('uploadStatus');
+      const progress = document.getElementById('uploadProgress');
+      const progressBar = document.getElementById('uploadProgressBar');
+      const category = document.getElementById('category').value;
+      const file = fileInput.files[0];
+
+      status.textContent = '';
+      status.className = 'upload-status';
+
+      if (!category) {
+        status.textContent = 'Please select a product category.';
+        status.className = 'upload-status error';
+        return;
+      }
+      if (!file) {
+        status.textContent = 'Please select an image to upload.';
+        status.className = 'upload-status error';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Uploading…';
+      progress.classList.add('visible');
+      progressBar.style.width = '30%';
+
+      const formData = new FormData();
+      formData.append('image', file);
+      formData.append('category', category);
+
+      try {
+        progressBar.style.width = '60%';
+
+        const res = await fetch('/api/admin-upload', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        });
+
+        progressBar.style.width = '90%';
+        const data = await res.json();
+
+        if (!res.ok) {
+          if (res.status === 401) {
+            sessionStorage.removeItem('adminToken');
+            window.location.href = 'admin.html';
+            return;
+          }
+          status.textContent = data.error || 'Upload failed.';
+          status.className = 'upload-status error';
+          return;
+        }
+
+        progressBar.style.width = '100%';
+        status.textContent = 'Image uploaded successfully!';
+        status.className = 'upload-status success';
+
+        // Reset form
+        fileInput.value = '';
+        previewWrap.classList.remove('visible');
+        previewImg.src = '';
+        document.getElementById('category').value = '';
+
+        // Refresh gallery
+        loadGallery(currentCategory);
+      } catch {
+        status.textContent = 'Network error. Please try again.';
+        status.className = 'upload-status error';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Upload Image';
+        setTimeout(() => {
+          progress.classList.remove('visible');
+          progressBar.style.width = '0';
+        }, 800);
+      }
+    });
+
+    // ── Gallery ──
+    const CATEGORY_LABELS = {
+      'electro-plating-jigs-single-bar': 'Single Bar Jigs',
+      'electro-plating-jigs-rack': 'Rack Jigs',
+      'painting-jigs': 'Painting Jigs',
+      'electro-less-plating-jigs': 'Electro Less Plating',
+      'anodes': 'Anodes',
+      'pvc-coated-baskets': 'PVC Baskets',
+      'pvc-coated-separators': 'PVC Separators',
+      'jigs-with-custom-anodes': 'Custom Anodes',
+    };
+
+    let currentCategory = 'all';
+
+    async function loadGallery(category) {
+      const container = document.getElementById('adminGallery');
+      container.innerHTML = '<p class="gallery-loading">Loading…</p>';
+
+      try {
+        const url = category && category !== 'all'
+          ? `/api/gallery-images?category=${encodeURIComponent(category)}`
+          : '/api/gallery-images';
+
+        const res = await fetch(url, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (res.status === 401) {
+          sessionStorage.removeItem('adminToken');
+          window.location.href = 'admin.html';
+          return;
+        }
+
+        const data = await res.json();
+
+        if (!data.images || data.images.length === 0) {
+          container.innerHTML = '<p class="gallery-empty">No images yet. Upload your first one above.</p>';
+          return;
+        }
+
+        container.innerHTML = `
+          <div class="admin-gallery-grid">
+            ${data.images.map(img => `
+              <div class="admin-gallery-item">
+                <img src="${img.url}" alt="${CATEGORY_LABELS[img.category] || img.category}" loading="lazy">
+                <div class="admin-gallery-cat">${CATEGORY_LABELS[img.category] || img.category}</div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      } catch {
+        container.innerHTML = '<p class="gallery-empty">Could not load images.</p>';
+      }
+    }
+
+    // Filter buttons
+    document.getElementById('galleryFilter').addEventListener('click', (e) => {
+      const btn = e.target.closest('.filter-btn');
+      if (!btn) return;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCategory = btn.dataset.cat;
+      loadGallery(currentCategory);
+    });
+
+    loadGallery('all');
+  </script>
+</body>
+
+</html>

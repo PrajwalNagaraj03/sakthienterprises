@@ -2,6 +2,9 @@
   "rewrites": [
     { "source": "/api/careers-application", "destination": "/api/careers-application" },
     { "source": "/api/contact", "destination": "/api/contact" },
+    { "source": "/api/admin-login", "destination": "/api/admin-login" },
+    { "source": "/api/admin-upload", "destination": "/api/admin-upload" },
+    { "source": "/api/gallery-images", "destination": "/api/gallery-images" },
     { "source": "/(.*)", "destination": "/public/$1" }
   ]
 }

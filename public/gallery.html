@@ -66,32 +66,37 @@
   <!-- GALLERY -->
   <section class="gallery-page">
     <div class="section-container">
-      <div class="gallery-grid">
-        <div class="gallery-item reveal">
-          <img src="images/hero.png" alt="Painting Jigs" loading="lazy">
-          <div class="gallery-caption">Painting Jigs</div>
-        </div>
-        <div class="gallery-item reveal">
-          <img src="images/jigs.png" alt="Single Bar Jigs" loading="lazy">
-          <div class="gallery-caption">Single Bar Jigs</div>
-        </div>
-        <div class="gallery-item reveal">
-          <img src="images/hero.png" alt="Rack Jigs" loading="lazy">
-          <div class="gallery-caption">Rack Jigs</div>
-        </div>
-        <div class="gallery-item reveal">
-          <img src="images/jigs.png" alt="Electro Less Plating Jigs" loading="lazy">
-          <div class="gallery-caption">Electro Less Plating Jigs</div>
-        </div>
-        <div class="gallery-item reveal">
-          <img src="images/hero.png" alt="Custom Anodes" loading="lazy">
-          <div class="gallery-caption">Custom Anodes</div>
-        </div>
-        <div class="gallery-item reveal">
-          <img src="images/jigs.png" alt="PVC Coated Baskets" loading="lazy">
-          <div class="gallery-caption">PVC Coated Baskets</div>
+
+      <!-- Category filter tabs -->
+      <div class="gallery-filters" id="galleryFilters">
+        <button class="gf-btn active" data-cat="all">All</button>
+        <button class="gf-btn" data-cat="electro-plating-jigs-single-bar">Single Bar Jigs</button>
+        <button class="gf-btn" data-cat="electro-plating-jigs-rack">Rack Jigs</button>
+        <button class="gf-btn" data-cat="painting-jigs">Painting Jigs</button>
+        <button class="gf-btn" data-cat="electro-less-plating-jigs">Electro Less Plating</button>
+        <button class="gf-btn" data-cat="anodes">Anodes</button>
+        <button class="gf-btn" data-cat="pvc-coated-baskets">PVC Baskets</button>
+        <button class="gf-btn" data-cat="pvc-coated-separators">PVC Separators</button>
+        <button class="gf-btn" data-cat="jigs-with-custom-anodes">Custom Anodes</button>
+      </div>
+
+      <!-- Dynamic grid -->
+      <div id="galleryContainer">
+        <!-- Skeleton placeholders while loading -->
+        <div class="gallery-grid" id="galleryGrid">
+          <div class="gallery-skeleton"></div>
+          <div class="gallery-skeleton"></div>
+          <div class="gallery-skeleton"></div>
+          <div class="gallery-skeleton"></div>
+          <div class="gallery-skeleton"></div>
+          <div class="gallery-skeleton"></div>
         </div>
       </div>
+
+      <p class="gallery-empty-msg" id="galleryEmpty" style="display:none;">
+        No images in this category yet. Check back soon.
+      </p>
+
     </div>
   </section>
 
@@ -151,6 +156,70 @@
   </div>
 
   <script src="script.js"></script>
+  <script>
+    const CATEGORY_LABELS = {
+      'electro-plating-jigs-single-bar': 'Single Bar Jigs',
+      'electro-plating-jigs-rack': 'Rack Jigs',
+      'painting-jigs': 'Painting Jigs',
+      'electro-less-plating-jigs': 'Electro Less Plating Jigs',
+      'anodes': 'Anodes',
+      'pvc-coated-baskets': 'PVC Coated Baskets',
+      'pvc-coated-separators': 'PVC Coated Separators',
+      'jigs-with-custom-anodes': 'Jigs with Custom Anodes',
+    };
+
+    let currentCat = 'all';
+
+    async function loadGallery(category) {
+      const grid = document.getElementById('galleryGrid');
+      const empty = document.getElementById('galleryEmpty');
+
+      // Show skeletons
+      grid.innerHTML = Array(6).fill('<div class="gallery-skeleton"></div>').join('');
+      empty.style.display = 'none';
+
+      try {
+        const url = category && category !== 'all'
+          ? `/api/gallery-images?category=${encodeURIComponent(category)}`
+          : '/api/gallery-images';
+
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (!data.images || data.images.length === 0) {
+          grid.innerHTML = '';
+          empty.style.display = 'block';
+          return;
+        }
+
+        grid.innerHTML = data.images.map(img => `
+          <div class="gallery-item reveal">
+            <img src="${img.url}" alt="${CATEGORY_LABELS[img.category] || img.category}" loading="lazy">
+            <div class="gallery-caption">${CATEGORY_LABELS[img.category] || img.category}</div>
+          </div>
+        `).join('');
+
+        // Re-trigger reveal animation for new items
+        if (typeof initReveal === 'function') initReveal();
+      } catch {
+        grid.innerHTML = '';
+        empty.textContent = 'Could not load gallery. Please refresh the page.';
+        empty.style.display = 'block';
+      }
+    }
+
+    // Filter tab clicks
+    document.getElementById('galleryFilters').addEventListener('click', (e) => {
+      const btn = e.target.closest('.gf-btn');
+      if (!btn) return;
+      document.querySelectorAll('.gf-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCat = btn.dataset.cat;
+      loadGallery(currentCat);
+    });
+
+    loadGallery('all');
+  </script>
 </body>
 
 </html>
