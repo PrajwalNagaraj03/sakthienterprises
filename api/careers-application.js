@@ -1,14 +1,6 @@
 const multer = require('multer');
 const { sendCareersApplication, isAllowedResume, MAX_RESUME_SIZE } = require('../lib/careersEmail');
 
-// Vercel parses the request body by default — disable it so multer can read
-// the raw multipart stream directly.
-module.exports.config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: MAX_RESUME_SIZE },
@@ -26,7 +18,7 @@ function runMiddleware(req, res, fn) {
   });
 }
 
-module.exports = async (req, res) => {
+const handler = async (req, res) => {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ error: 'Method not allowed.' });
@@ -58,3 +50,9 @@ module.exports = async (req, res) => {
     return res.status(500).json({ error: err.publicMessage || 'Something went wrong. Please try again later.' });
   }
 };
+
+// Vercel parses the request body by default — disable it so multer can read
+// the raw multipart stream directly. Must be set on the exported handler.
+handler.config = { api: { bodyParser: false } };
+
+module.exports = handler;
