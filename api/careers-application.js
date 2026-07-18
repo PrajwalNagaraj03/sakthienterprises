@@ -1,6 +1,14 @@
 const multer = require('multer');
 const { sendCareersApplication, isAllowedResume, MAX_RESUME_SIZE } = require('../lib/careersEmail');
 
+// Vercel parses the request body by default — disable it so multer can read
+// the raw multipart stream directly.
+module.exports.config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: MAX_RESUME_SIZE },
