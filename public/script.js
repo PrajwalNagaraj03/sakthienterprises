@@ -15,6 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('theme', next);
   });
 
+  // === ACTIVE NAV LINK ===
+  const currentPage = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-links a[href]').forEach(a => {
+    const href = a.getAttribute('href').split('#')[0] || 'index.html';
+    if (href === currentPage) a.classList.add('active');
+  });
+
   // === NAVBAR SCROLL ===
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
@@ -69,20 +76,64 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, { threshold: 0.15 });
 
-  document.querySelectorAll('.product-card, .feature-card, .contact-item').forEach(el => {
+  document.querySelectorAll('.feature-card, .contact-item, .quicklink-card, .category-card, .gallery-item').forEach(el => {
     el.classList.add('reveal');
     observer.observe(el);
   });
 
-  setTimeout(() => { if (!counted) { counted = true; animateCounters(); } }, 1200);
+  if (counters.length) setTimeout(() => { if (!counted) { counted = true; animateCounters(); } }, 1200);
 
-  // === FORM SUBMIT ===
-  document.getElementById('contactForm').addEventListener('submit', e => {
-    e.preventDefault();
-    const btn = e.target.querySelector('button');
-    const original = btn.innerHTML;
-    btn.innerHTML = '✓ Enquiry Sent! We\'ll contact you soon.';
-    btn.style.background = '#10b981';
-    setTimeout(() => { e.target.reset(); btn.innerHTML = original; btn.style.background = ''; }, 3000);
+  // === FORM SUBMIT (contact) ===
+  document.querySelectorAll('.js-form').forEach(form => {
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const btn = form.querySelector('button');
+      const original = btn.innerHTML;
+      btn.innerHTML = '✓ Sent! We\'ll get back to you soon.';
+      btn.style.background = '#10b981';
+      setTimeout(() => { form.reset(); btn.innerHTML = original; btn.style.background = ''; }, 3000);
+    });
   });
+
+  // === CAREERS FORM (real submit to server) ===
+  const careersForm = document.getElementById('careersForm');
+  if (careersForm) {
+    const statusEl = document.getElementById('careerStatus');
+    careersForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const btn = careersForm.querySelector('button');
+      const original = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = 'Sending...';
+      statusEl.textContent = '';
+      statusEl.className = 'form-status';
+
+      try {
+        const res = await fetch('/api/careers-application', {
+          method: 'POST',
+          body: new FormData(careersForm)
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Something went wrong. Please try again later.');
+
+        btn.innerHTML = '✓ Application Sent!';
+        btn.style.background = '#10b981';
+        statusEl.textContent = 'Thanks — we\'ll be in touch if there\'s a fit.';
+        statusEl.classList.add('success');
+        setTimeout(() => {
+          careersForm.reset();
+          btn.innerHTML = original;
+          btn.style.background = '';
+          btn.disabled = false;
+          statusEl.textContent = '';
+          statusEl.className = 'form-status';
+        }, 4000);
+      } catch (err) {
+        btn.innerHTML = original;
+        btn.disabled = false;
+        statusEl.textContent = err.message;
+        statusEl.classList.add('error');
+      }
+    });
+  }
 });
