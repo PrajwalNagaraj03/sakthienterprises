@@ -54,10 +54,10 @@ img{max-width:100%;display:block}
 .footer-logo-img{height:80px;width:auto;object-fit:contain;border-radius:4px;display:block;mix-blend-mode:multiply}
 [data-theme="dark"] .footer-logo-img {filter:invert(1) hue-rotate(180deg) brightness(1.2);mix-blend-mode:screen}
 .logo-mark{width:36px;height:36px;background:var(--grad);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;font-size:.8rem;color:#fff}
-.nav-links{display:flex;gap:24px;list-style:none}
+.nav-links{display:flex;gap:24px;list-style:none;margin:0 auto}
 .nav-links a{font-size:.88rem;font-weight:500;color:var(--text2);transition:color .3s;white-space:nowrap}
 .nav-links a:hover,.nav-links a.active{color:var(--accent)}
-.nav-right{display:flex;align-items:center;gap:12px;margin-left:auto}
+.nav-right{display:flex;align-items:center;gap:12px}
 .nav-cta{background:var(--grad);color:#fff;padding:9px 20px;border-radius:var(--radius-full);font-size:.84rem;font-weight:600;transition:all .3s}
 .nav-cta:hover{transform:scale(1.04);box-shadow:0 4px 16px var(--accent-glow)}
 
