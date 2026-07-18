@@ -183,7 +183,29 @@ img{max-width:100%;display:block}
 .footer-col li{font-size:.86rem;color:var(--text2);line-height:1.5}
 .footer-col a{font-size:.86rem;color:var(--text2);transition:color .3s}
 .footer-col a:hover{color:var(--accent)}
-.footer-bottom{text-align:center;font-size:.78rem;color:var(--text3)}
+.footer-bottom{text-align:center;font-size:.78rem;color:var(--text3);display:flex;flex-direction:column;align-items:center;gap:8px}
+.footer-iso{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;font-weight:600;color:var(--accent);text-decoration:none;opacity:.8;transition:opacity .2s}
+.footer-iso:hover{opacity:1}
+
+/* === ISO TRUST STRIP === */
+.iso-strip{padding:24px 0;background:var(--bg2);border-top:1px solid var(--card-border);border-bottom:1px solid var(--card-border);transition:background .4s}
+.iso-strip-inner{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;font-size:.9rem;color:var(--text2)}
+.iso-strip-inner svg{color:var(--accent);flex-shrink:0}
+.iso-link{font-size:.84rem;font-weight:600;color:var(--accent);text-decoration:none;transition:opacity .2s}
+.iso-link:hover{opacity:.75}
+
+/* === CERTIFICATIONS === */
+.certifications{padding:80px 0}
+.cert-cards{display:flex;flex-direction:column;gap:20px;max-width:760px;margin:0 auto}
+.cert-card{display:flex;align-items:flex-start;gap:24px;background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius-lg);padding:32px;box-shadow:var(--shadow)}
+.cert-badge{width:64px;height:64px;flex-shrink:0;background:var(--accent-light);border:1px solid var(--accent-glow);border-radius:14px;display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.cert-info{flex:1}
+.cert-label{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:6px}
+.cert-info h3{font-family:var(--display);font-size:1.15rem;font-weight:700;margin-bottom:6px}
+.cert-info p{font-size:.88rem;color:var(--text2);line-height:1.6}
+.cert-view{display:inline-flex;align-items:center;gap:6px;margin-top:4px;padding:8px 16px;font-size:.82rem;font-weight:600;color:var(--accent);border:1.5px solid var(--accent-glow);border-radius:var(--radius-full);text-decoration:none;white-space:nowrap;transition:all .2s;flex-shrink:0;align-self:center}
+.cert-view:hover{background:var(--accent-light)}
+@media(max-width:600px){.cert-card{flex-direction:column}.cert-view{align-self:flex-start}}
 
 /* === FLOATING CTA === */
 .floating-cta{position:fixed;bottom:24px;right:24px;z-index:90;display:none}

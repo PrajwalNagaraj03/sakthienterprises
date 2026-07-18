@@ -4,6 +4,7 @@ const express = require('express');
 const path = require('path');
 const multer = require('multer');
 const { sendCareersApplication, isAllowedResume, MAX_RESUME_SIZE } = require('./lib/careersEmail');
+const { sendContactEnquiry } = require('./lib/contactEmail');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -36,6 +37,20 @@ app.post('/api/careers-application', upload.single('resume'), async (req, res, n
     }
 
     await sendCareersApplication({ firstName, phone, email, qualification, position, file: req.file });
+    res.json({ success: true });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Local dev equivalent of api/contact.js
+app.post('/api/contact', express.json(), async (req, res, next) => {
+  try {
+    const { name, phone, product, message } = req.body || {};
+    if (!name || !phone || !product) {
+      return res.status(400).json({ error: 'Please fill in all required fields.' });
+    }
+    await sendContactEnquiry({ name, phone, product, message });
     res.json({ success: true });
   } catch (err) {
     next(err);

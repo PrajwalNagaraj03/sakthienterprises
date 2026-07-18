@@ -1,4 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // === YEARS OF EXPERIENCE ===
+  const FOUNDED = 1997;
+  const years = new Date().getFullYear() - FOUNDED;
+  const yearsHeading = document.getElementById('yearsHeading');
+  const yearsDesc = document.getElementById('yearsDesc');
+  if (yearsHeading) yearsHeading.textContent = years + '+ Years';
+  if (yearsDesc) yearsDesc.textContent = 'Over ' + years + ' years of manufacturing excellence in Bangalore.';
+
   // === THEME TOGGLE ===
   const toggle = document.getElementById('themeToggle');
   const saved = localStorage.getItem('theme');
@@ -84,16 +92,46 @@ document.addEventListener('DOMContentLoaded', () => {
   if (counters.length) setTimeout(() => { if (!counted) { counted = true; animateCounters(); } }, 1200);
 
   // === FORM SUBMIT (contact) ===
-  document.querySelectorAll('.js-form').forEach(form => {
-    form.addEventListener('submit', e => {
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', async e => {
       e.preventDefault();
-      const btn = form.querySelector('button');
+      const btn = contactForm.querySelector('button');
       const original = btn.innerHTML;
-      btn.innerHTML = '✓ Sent! We\'ll get back to you soon.';
-      btn.style.background = '#10b981';
-      setTimeout(() => { form.reset(); btn.innerHTML = original; btn.style.background = ''; }, 3000);
+      btn.disabled = true;
+      btn.innerHTML = 'Sending...';
+
+      const payload = {
+        name: document.getElementById('formName').value.trim(),
+        phone: document.getElementById('formPhone').value.trim(),
+        product: document.getElementById('formService').value,
+        message: document.getElementById('formMessage').value.trim()
+      };
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Something went wrong. Please try again later.');
+
+        btn.innerHTML = '✓ Enquiry Sent!';
+        btn.style.background = '#10b981';
+        setTimeout(() => {
+          contactForm.reset();
+          btn.innerHTML = original;
+          btn.style.background = '';
+          btn.disabled = false;
+        }, 3000);
+      } catch (err) {
+        btn.innerHTML = original;
+        btn.disabled = false;
+        alert(err.message);
+      }
     });
-  });
+  }
 
   // === CAREERS FORM (real submit to server) ===
   const careersForm = document.getElementById('careersForm');
